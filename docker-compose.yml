@@ -2,26 +2,30 @@
 version: "3.7"
 
 services:
-  domain1:
+  mercure:
     image: dunglas/mercure
     restart: unless-stopped
     environment:
-      SERVER_NAME: 'domain1.localhost'
+      SERVER_NAME: ':80'
       MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
       MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
       MERCURE_EXTRA_DIRECTIVES: |
-        cors_origins https://domain2.localhost:4443
+        cors_origins *
         anonymous
         demo
+    volumes:
+      - mercure_data:/data
+      - mercure_config:/config
+
+  domain1:
+    image: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
       - "80:80"
-      - "443:443"
-    volumes:
-      - domain1_data:/data
-      - domain1_config:/config
 
   domain2:
-    image: caddy:latest
+    image: caddy
     restart: unless-stopped
     ports:
       - "8080:8080"
@@ -33,7 +37,7 @@ services:
       - domain2_config:/config
 
 volumes:
-  domain1_data:
-  domain1_config:
+  mercure_data:
+  mercure_config:
   domain2_data:
   domain2_config:
