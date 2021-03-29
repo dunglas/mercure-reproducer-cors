@@ -1,39 +1,24 @@
-# docker-compose.yml
-version: "3.7"
+version: '3.7'
 
 services:
-  domain1:
-    image: dunglas/mercure
+  mercure:
+    image: dunglas/mercure:v0.11
     restart: unless-stopped
     environment:
-      SERVER_NAME: 'domain1.localhost'
+      SERVER_NAME: ':80'
       MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
       MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
       MERCURE_EXTRA_DIRECTIVES: |
-        cors_origins https://domain2.localhost:4443
+        cors_origins http://foo.localhost
         anonymous
         demo
     ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - domain1_data:/data
-      - domain1_config:/config
+      - 8888:80
 
-  domain2:
-    image: caddy:latest
-    restart: unless-stopped
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: production
     ports:
-      - "8080:8080"
-      - "4443:4443"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - ./site:/srv
-      - domain2_data:/data
-      - domain2_config:/config
-
-volumes:
-  domain1_data:
-  domain1_config:
-  domain2_data:
-  domain2_config:
+      - 80:80
