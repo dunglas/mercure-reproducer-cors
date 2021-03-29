@@ -10,11 +10,11 @@ import EventSource from 'eventsource';
 export default {
   name: 'App',
   mounted: () => {
-    const url = new URL('http://events.foo.localhost:8888/.well-known/mercure');
+    const url = new URL('http://events.foo.localhost:8888/.well-known/mercure?topic=bar');
 
     const sse = new EventSource(url.toString(), {
       headers: {
-        Authorization: `Bearer FooBar`,
+        //Authorization: `Bearer FooBar`,
       },
     });
 

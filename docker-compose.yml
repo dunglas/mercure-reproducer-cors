@@ -6,13 +6,12 @@ services:
     restart: unless-stopped
     environment:
       SERVER_NAME: ':80'
-      CORS_ALLOWED_ORIGINS: 'http://foo.localhost:80'
       MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
       MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
-#      MERCURE_EXTRA_DIRECTIVES: |
-#        cors_origins http://foo.localhost:80
-#        anonymous
-#        demo
+      MERCURE_EXTRA_DIRECTIVES: |
+        cors_origins http://foo.localhost
+        anonymous
+        demo
     ports:
       - 8888:80
 
