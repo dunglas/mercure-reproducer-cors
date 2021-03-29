@@ -1,9 +1,11 @@
-# CORS Issues With Mercure
+### Build and run
+```shell
+docker-compose up -d --build
+```
 
-Try to reproduce [dunglas/mercure#442](https://github.com/dunglas/mercure/issues/442) (unsucesfully until now).
+Open http://foo.localhost in your browser.
 
-To test:
-
-    docker-compose up
-
-Then go on `https://domain2.localhost:4443` and open the console.
+If necessary, add these hosts to `/etc/hosts`.
+```shell
+127.0.0.1 foo.localhost events.foo.localhost
+```
